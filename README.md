@@ -16,6 +16,10 @@
 - két külön mappában legyenek a projektek (backend és frontend projektek)
 - a példa kódokat is tartsuk meg külön mappákban, ne írogassuk őket át, hogy később vissza tudjunk rá nézni
 
+-------------------------------
+-------------------------------
+# Innentől jön a gitlab által generált README:
+
 
 ## Getting started
 
