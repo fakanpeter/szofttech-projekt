@@ -1,6 +1,6 @@
 {
-  "name": "peldaproject",
-  "version": "0.0.0",
+  "name": "szofttech-projekt",
+  "version": "0.0.1",
   "private": true,
   "type": "module",
   "scripts": {
@@ -10,12 +10,21 @@
     "deploy": "npm run build && firebase deploy"
   },
   "dependencies": {
+    "autoprefixer": "^10.4.19",
+    "bootstrap": "^5.3.3",
+    "swagger-ui-dist": "^5.17.7",
+    "tailwindcss": "^3.4.3",
+    "vue-router": "^4.3.2",
     "axios": "^1.6.8",
     "vue": "^3.4.21",
     "vue-cookies": "^1.8.4",
     "vuex": "^4.1.0"
   },
   "devDependencies": {
+    "@tailwindcss/postcss7-compat": "^2.2.17",
+    "axios-mock-adapter": "^1.22.0",
+    "postcss": "^8.4.38",
+    "postcss-preset-env": "^9.5.11",
     "@vitejs/plugin-vue": "^5.0.4",
     "vite": "^5.2.8"
   }
