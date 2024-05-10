@@ -1,0 +1,51 @@
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+
+body {
+    @apply flex flex-col justify-between text-center bg-blue-200 text-gray-800;
+}
+
+.hero {
+    @apply bg-cover bg-center py-20;
+}
+
+.features {
+    @apply bg-white text-gray-800 py-20;
+}
+
+.cta {
+    @apply bg-blue-500 text-white py-20;
+}
+
+nav {
+    @apply bg-blue-500 shadow-md py-6 px-8 mb-6 text-white;
+}
+
+nav h1 {
+    @apply text-3xl font-bold;
+}
+
+nav ul {
+    @apply flex space-x-4 justify-center;
+}
+
+nav ul li {
+    @apply inline;
+}
+
+footer {
+    @apply bg-blue-500 shadow-md py-6 px-8 mt-auto text-white;
+}
+
+footer p {
+    @apply text-center;
+}
+
+h2 {
+    @apply text-2xl font-bold mb-2;
+}
+
+p {
+    @apply mb-4;
+}

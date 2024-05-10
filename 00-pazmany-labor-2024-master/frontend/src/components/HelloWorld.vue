@@ -20,7 +20,7 @@ defineProps({
   </div>
 </template>
 
-<style scoped>
+<style scoped lang="postcss">
 h1 {
   font-weight: 500;
   font-size: 2.6rem;
