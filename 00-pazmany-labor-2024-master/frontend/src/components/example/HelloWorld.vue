@@ -1,5 +1,5 @@
 <script setup>
-import PeldaKomponens from "@/components/pelda-komponens.vue";
+import PeldaKomponens from "@/components/example/pelda-komponens.vue";
 defineProps({
   msg: {
     type: String,

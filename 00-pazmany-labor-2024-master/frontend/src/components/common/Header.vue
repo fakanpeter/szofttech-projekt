@@ -6,7 +6,7 @@
       <li><router-link to="/dogs" class="nav-link">Kutyák</router-link></li>
       <li><router-link to="/contact" class="nav-link">Elérhetőség</router-link></li>
       <li><router-link to="/faq" class="nav-link">Gyakori kérdések</router-link></li>
-      <li><router-link to="/login" class="nav-link login-link">Login</router-link></li>
+      <li><router-link to="/login" class="nav-link login-link">Bejelentkezés</router-link></li>
     </ul>
   </nav>
 </template>

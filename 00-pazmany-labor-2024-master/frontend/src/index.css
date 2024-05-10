@@ -27,7 +27,7 @@ nav h1 {
 }
 
 nav ul {
-    @apply flex space-x-4 justify-center;
+    @apply flex space-x-4 justify-center items-center;
 }
 
 nav ul li {
@@ -48,4 +48,125 @@ h2 {
 
 p {
     @apply mb-4;
+}
+
+@media (max-width: 600px) {
+    nav ul {
+        @apply flex flex-col space-y-4 items-center;
+    }
+
+    nav ul li {
+        @apply block;
+    }
+
+    nav ul li a {
+        @apply text-lg;
+    }
+
+    nav h1 {
+        @apply text-2xl;
+    }
+
+    .hero {
+        @apply py-12;
+    }
+
+    .features {
+        @apply py-12;
+    }
+
+    .cta {
+        @apply py-12;
+    }
+
+    footer {
+        @apply py-4;
+    }
+
+    footer p {
+        @apply text-sm;
+    }
+
+    h2 {
+        @apply text-xl;
+    }
+
+    p {
+        @apply text-sm;
+    }
+
+    .login-container {
+        @apply p-4;
+    }
+
+    .login-container label,
+    .login-container input,
+    .login-container button {
+        @apply text-xs;
+    }
+}
+
+/* Styles for extra small devices (phones, 600px and below) */
+@media (max-width: 600px) {
+    body {
+        @apply text-sm;
+    }
+
+    .login-container label,
+    .login-container input,
+    .login-container button {
+        @apply text-sm;
+    }
+}
+
+/* Styles for small devices (portrait tablets and large phones, 600px and up) */
+@media (min-width: 600px) {
+    body {
+        @apply text-base;
+    }
+
+    .login-container label,
+    .login-container input,
+    .login-container button {
+        @apply text-base;
+    }
+}
+
+/* Styles for medium devices (landscape tablets, 768px and up) */
+@media (min-width: 768px) {
+    body {
+        @apply text-lg;
+    }
+
+    .login-container label,
+    .login-container input,
+    .login-container button {
+        @apply text-lg;
+    }
+}
+
+/* Styles for large devices (laptops/desktops, 992px and up) */
+@media (min-width: 992px) {
+    body {
+        @apply text-xl;
+    }
+
+    .login-container label,
+    .login-container input,
+    .login-container button {
+        @apply text-xl;
+    }
+}
+
+/* Styles for extra large devices (large laptops and desktops, 1200px and up) */
+@media (min-width: 1200px) {
+    body {
+        @apply text-2xl;
+    }
+
+    .login-container label,
+    .login-container input,
+    .login-container button {
+        @apply text-2xl;
+    }
 }

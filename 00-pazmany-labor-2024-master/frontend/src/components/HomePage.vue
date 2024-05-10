@@ -6,8 +6,8 @@
 </template>
 
 <script>
-import HeroSection from './HeroSection.vue'
-import CallToAction from './CallToAction.vue'
+import HeroSection from './common/HeroSection.vue'
+import CallToAction from './common/CallToAction.vue'
 
 export default {
   name: 'HomePage',
