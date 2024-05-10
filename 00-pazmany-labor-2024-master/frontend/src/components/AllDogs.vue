@@ -31,7 +31,7 @@ export default {
   },
   async created() {
     try {
-      const response = await axios.get('/api/dogs', { timeout: 5000 }); // 5 seconds timeout
+      const response = await axios.get('http://localhost:8080/api/dogs', { timeout: 5000 }); // 5 seconds timeout
       if (response.status === 200) {
         if (response.data && response.data.length > 0) {
           this.dogs = response.data;

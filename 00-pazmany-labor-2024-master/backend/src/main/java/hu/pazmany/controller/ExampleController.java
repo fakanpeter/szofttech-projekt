@@ -2,8 +2,8 @@ package hu.pazmany.controller;
 
 import hu.pazmany.dto.DetailedDogDTO;
 import hu.pazmany.dto.DogDTO;
-import hu.pazmany.jpe.DogEntity;
 import hu.pazmany.service.DogService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,8 +13,14 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/api")
+@CrossOrigin(origins = "https://vau-vau.web.app/")
 public class ExampleController {
-	private final DogService dogService = new DogService();
+	private final DogService dogService;
+
+	@Autowired
+	public ExampleController(DogService dogService) {
+		this.dogService = dogService;
+	}
 
 	@GetMapping("/dogs")
 	public List<DogDTO> getAllDogs(){

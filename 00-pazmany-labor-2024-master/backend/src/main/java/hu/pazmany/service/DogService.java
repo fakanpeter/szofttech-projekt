@@ -4,6 +4,7 @@ import hu.pazmany.dto.DetailedDogDTO;
 import hu.pazmany.dto.DogDTO;
 import hu.pazmany.jpe.DogEntity;
 import hu.pazmany.jpe.DogRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -11,7 +12,12 @@ import java.util.Optional;
 
 @Service
 public class DogService {
-    private DogRepository dogRepository;
+    private final DogRepository dogRepository;
+
+    @Autowired
+    public DogService(DogRepository dogRepository) {
+        this.dogRepository = dogRepository;
+    }
 
     public List<DogDTO> getAllDogs() {
         return dogRepository.findAllDogs();
