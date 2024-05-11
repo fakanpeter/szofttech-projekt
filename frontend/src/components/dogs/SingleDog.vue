@@ -4,9 +4,10 @@
     <img :src="dog.picture" :alt="`Image of ${dog.name}`" class="w-64 h-64 object-cover mb-4 rounded shadow"/>
     <p class="text-lg mb-2"><strong>Age:</strong> {{ dog.age }}</p>
     <p class="text-lg"><strong>Breed:</strong> {{ dog.breed }}</p>
-    <router-link :to="`/edit-dog/${dog.id}`" tag="button" class="edit-button">Edit</router-link>
+    <router-link :to="`/edit-dog/${dog.id}`" tag="button" class="edit-button">Szerkesztés</router-link>
+    <button @click="deleteDog" class="delete-button">Törlés</button>
   </div>
-  <div v-else>Loading...</div>
+  <div v-else>Betöltés...</div>
 </template>
 
 <script>
@@ -31,6 +32,17 @@ export default {
       // Handle error
     }
   },
+  methods: {
+    async deleteDog() {
+      if (window.confirm('Biztosan törölni akarod ezt a kutyát?')) {
+        const config = {
+          headers: { Authorization: `Bearer ${this.token}` },
+        };
+        await axios.delete(`/api/dogs/${this.$route.params.id}`, config);
+        this.$router.push(`/dogs`);
+      }
+    },
+  },
 };
 </script>
 
@@ -53,5 +65,9 @@ p {
 
 .edit-button {
   @apply px-4 py-2 mt-4 text-sm font-medium text-white bg-blue-500 rounded hover:bg-blue-700 focus:outline-none;
+}
+
+.delete-button {
+  @apply px-4 py-2 mt-4 text-sm font-medium text-white bg-red-500 rounded hover:bg-red-700 focus:outline-none;
 }
 </style>

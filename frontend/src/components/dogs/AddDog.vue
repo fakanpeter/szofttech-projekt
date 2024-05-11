@@ -1,7 +1,7 @@
 <template>
   <div class="edit-dog-container">
-    <h1>Kutya szerkesztése</h1>
-    <form @submit.prevent="editDog">
+    <h1>Kutya hozzáadása</h1>
+    <form @submit.prevent="addDog">
       <div class="input-group">
         <label for="name">Neve</label>
         <input id="name" v-model="dog.name" type="text" required>
@@ -33,20 +33,13 @@ export default {
     ...mapState(['token']),
   },
   methods: {
-    async fetchDog() {
-      const response = await axios.get(`/api/dogs/${this.$route.params.id}`);
-      this.dog = response.data;
-    },
-    async editDog() {
+    async addDog() {
       const config = {
         headers: { Authorization: `Bearer ${this.token}` },
       };
-      await axios.post(`/api/dogs/${this.$route.params.id}/edit`, this.dog, config);
-      this.$router.push(`/dog/${this.$route.params.id}`);
+      await axios.post(`/api/newdog`, this.dog, config);
+      this.$router.push(`/dogs`);
     },
-  },
-  created() {
-    this.fetchDog();
   },
 };
 </script>
