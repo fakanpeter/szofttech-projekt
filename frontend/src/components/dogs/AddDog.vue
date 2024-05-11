@@ -20,7 +20,7 @@
 </template>
 
 <script>
-import axios from 'axios';
+import axios from '@/axiosConfig.js';
 import { mapState } from 'vuex';
 
 export default {

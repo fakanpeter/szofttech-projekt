@@ -23,10 +23,8 @@
 </template>
 
 <script>
-import axios from 'axios';
+import axios from '@/axiosConfig.js';
 import {mapState} from "vuex";
-
-axios.defaults.baseURL = 'http://localhost:8080';
 
 export default {
   name: 'Login',

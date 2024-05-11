@@ -11,9 +11,7 @@
 </template>
 
 <script>
-import axios from 'axios';
-
-axios.defaults.baseURL = 'http://localhost:8080';
+import axios from '@/axiosConfig.js';
 
 export default {
   name: 'SingleDog',
