@@ -128,7 +128,7 @@ public class Controller {
 	}
 
 	private boolean isValidToken(String token) {
-		return token == null || !verifyTokenSignature(token);
+		return token != null || verifyTokenSignature(token);
 	}
 
 	private boolean verifyTokenSignature(String token) {

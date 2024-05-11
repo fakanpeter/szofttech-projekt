@@ -13,14 +13,14 @@ public class DogEntity {
     @Column(name = "name", nullable = false)
     private String name;
 
-    @Column(name = "pic", nullable = false)
+    @Column(name = "pic")
     @Lob
     private byte[] picture;
 
-    @Column(name = "breed", nullable = false)
+    @Column(name = "breed")
     private String breed;
 
-    @Column(name = "age", nullable = false)
+    @Column(name = "age")
     private Integer age;
 
 
