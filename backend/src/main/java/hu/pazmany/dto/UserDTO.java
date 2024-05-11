@@ -1,11 +1,11 @@
 package hu.pazmany.dto;
 
-import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.Size;
 
 public class UserDTO {
-    @Min(value = 5, message = "Username must be at least 5 characters long")
+    @Size(min = 5, message = "Username must be at least 5 characters long")
     private String username;
-    @Min(value = 5, message = "Password must be at least 5 characters long")
+    @Size(min = 5, message = "Password must be at least 5 characters long")
     private String password;
     private String token;
 

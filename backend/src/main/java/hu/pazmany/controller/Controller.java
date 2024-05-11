@@ -17,7 +17,6 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/api")
-@CrossOrigin(origins = "https://vau-vau.web.app/")
 public class Controller {
 	private final DogService dogService;
 	private final UserService userService;
@@ -48,7 +47,7 @@ public class Controller {
 
 	@PostMapping("/newdog")
 	public ResponseEntity<?> addNewDog(@RequestBody DetailedDogDTO dto, @RequestHeader("Authorization") String token) {
-		if(isValidToken(token)) return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+		if(!isValidToken(token)) return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
 
 		dogService.addNewDog(dto);
 		return ResponseEntity.status(HttpStatus.CREATED).build();
@@ -57,7 +56,7 @@ public class Controller {
 
 	@PostMapping("/dogs/{id}/edit")
 	public ResponseEntity<?> editDog(@PathVariable Integer id, @RequestBody DetailedDogDTO dto, @RequestHeader("Authorization") String token) {
-		if (isValidToken(token)) return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+		if (!isValidToken(token)) return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
 		// Retrieve the dog entity from the database
 		Optional<DetailedDogDTO> optionalDog = dogService.get(id);
 		if (optionalDog.isPresent()) {
@@ -73,7 +72,7 @@ public class Controller {
 
 	@DeleteMapping("/dogs/{id}")
 	public ResponseEntity<?> deleteDog(@PathVariable Integer id, @RequestHeader("Authorization") String token) {
-		if (isValidToken(token)) return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+		if (!isValidToken(token)) return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
 
 		dogService.deleteDog(id);
 		return ResponseEntity.ok().build();
