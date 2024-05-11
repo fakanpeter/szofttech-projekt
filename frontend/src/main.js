@@ -8,11 +8,11 @@ import SingleDog from "@/components/dogs/SingleDog.vue";
 import Login from "@/components/auth/Login.vue";
 import Register from "@/components/auth/Register.vue";
 import EditDog from "@/components/dogs/EditDog.vue";
-import axios from "axios";
 
 import {createApp} from 'vue';
 import store from './store';
 import App from './App.vue';
+import AddDog from "@/components/dogs/AddDog.vue";
 
 const routes = [
     {path: '/', component: HomePage},
@@ -23,6 +23,7 @@ const routes = [
     {path: '/edit-dog/:id', name: 'EditDog', component: EditDog, meta: {requiresAuth: true}},
     {path: '/login', component: Login},
     {path: '/register', component: Register},
+    {path: '/add-dog', name: 'AddDog', component: AddDog, meta: {requiresAuth: true}},
     {path: '/:pathMatch(.*)*', redirect: '/'}
 ]
 
@@ -31,34 +32,12 @@ const router = createRouter({
     routes
 })
 
-const loggedIn = false;
-
 router.beforeEach((to, from, next) => {
-    if (to.matched.some(record => record.meta.requiresAuth)) {
-        // This route requires auth, check if logged in, if not, redirect to login page.
-        if (!loggedIn) {
-            next({
-                path: '/login',
-                query: {redirect: to.fullPath}
-            })
-        } else {
-            next()
-        }
+    if (to.name === 'edit' && !store.state.token) {
+        next({ name: 'login' })
     } else {
         next()
     }
 })
-
-// axios.interceptors.request.use(
-//     (config) => {
-//         if (store.state.token) {
-//             config.headers.Authorization = `Bearer ${store.state.token}`;
-//         }
-//         return config;
-//     },
-//     (error) => {
-//         return Promise.reject(error);
-//     }
-// );
 
 createApp(App).use(router).use(store).mount('#app');

@@ -30,16 +30,26 @@ export default {
   methods: {
     async register() {
       try {
-        const response = await axios.post('/api/auth/register', {
+        const response = await axios.post('/api/register', {
           username: this.username,
           password: this.password
         });
 
-        // Handle response
-        console.log(response);
+        // If registration is successful, redirect to login page
+        if (response.status === 201) {
+          this.$store.commit('setRegistrationSuccess', true);
+          this.$router.push('/login');
+        }
       } catch (error) {
         // Handle error
         console.log(error);
+
+        // Display error message
+        if (error.response && error.response.data) {
+          alert('Registration failed: ' + error.response.data);
+        } else {
+          alert('Registration failed: ' + error.message);
+        }
       }
     },
   },

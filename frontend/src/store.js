@@ -4,6 +4,7 @@ import VueCookies from 'vue-cookies';
 export default createStore({
     state: {
         token: VueCookies.get('auth-token') || null,
+        registrationSuccess: false,
     },
     mutations: {
         setToken(state, token) {
@@ -18,5 +19,8 @@ export default createStore({
             state.token = null;
             VueCookies.remove('auth-token');
         },
+        setRegistrationSuccess(state, success) {
+            state.registrationSuccess = success;
+        }
     },
 });
