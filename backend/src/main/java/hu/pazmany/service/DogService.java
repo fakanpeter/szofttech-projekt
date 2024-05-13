@@ -32,7 +32,8 @@ public class DogService {
 
     public void addNewDog(DetailedDogDTO dto) {
         DogEntity newDog = new DogEntity();
-        newDog.setId(dogRepository.findAllDogs().size());
+        //newDog.setId(dogRepository.findAllDogs().size());
+        //System.out.println(newDog.getId());
         newDog.setName(dto.getName());
         newDog.setPicture(dto.getPicture());
         newDog.setBreed(dto.getBreed());
