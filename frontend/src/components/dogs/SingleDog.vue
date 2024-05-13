@@ -1,9 +1,9 @@
 <template>
   <div v-if="dog" class="single-dog flex flex-col items-center bg-gray-100 p-4 rounded shadow">
     <h1 class="text-2xl font-bold mb-4">{{ dog.name }}</h1>
-    <img :src="dog.picture" :alt="`Image of ${dog.name}`" class="w-64 h-64 object-cover mb-4 rounded shadow"/>
-    <p class="text-lg mb-2"><strong>Age:</strong> {{ dog.age }}</p>
-    <p class="text-lg"><strong>Breed:</strong> {{ dog.breed }}</p>
+    <img :src="dog.picture" :alt="`${dog.name} képe`" class="w-64 h-64 object-cover mb-4 rounded shadow"/>
+    <p class="text-lg mb-2"><strong>Kor:</strong> {{ dog.age }}</p>
+    <p class="text-lg"><strong>Faj:</strong> {{ dog.breed }}</p>
     <router-link :to="`/edit-dog/${dog.id}`" tag="button" class="edit-button">Szerkesztés</router-link>
     <button @click="deleteDog" class="delete-button">Törlés</button>
   </div>

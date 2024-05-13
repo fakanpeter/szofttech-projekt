@@ -1,7 +1,7 @@
 <template>
   <div class="edit-dog-container">
     <h1>Kutya szerkesztése</h1>
-    <form @submit.prevent="editDog">
+    <form @submit.prevent="editDog" enctype="multipart/form-data">
       <div class="input-group">
         <label for="name">Neve</label>
         <input id="name" v-model="dog.name" type="text" required>
@@ -14,6 +14,18 @@
         <label for="age">Kora</label>
         <input id="age" v-model="dog.age" type="number" required>
       </div>
+      <div class="input-group">
+        <label for="dog-image">Kép</label>
+        <file-pond
+            id="dog-image"
+            name="dogPicture"
+            ref="pond"
+            label-idle="Húzza ide a fájlt..."
+            allow-multiple="false"
+            accepted-file-types="image/jpeg, image/png"
+            v-on:init="handleFilePondInit"
+        />
+      </div>
       <button type="submit">Mentés</button>
     </form>
   </div>
@@ -22,8 +34,19 @@
 <script>
 import axios from '@/axiosConfig.js';
 import { mapState } from 'vuex';
+import vueFilePond from 'vue-filepond';
+import FilePondPluginImagePreview from 'filepond-plugin-image-preview';
+import FilePondPluginFileValidateType from 'filepond-plugin-file-validate-type';
+import 'filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css';
+import 'filepond/dist/filepond.min.css';
+
+// Create component
+const FilePond = vueFilePond(FilePondPluginFileValidateType, FilePondPluginImagePreview);
 
 export default {
+  components: {
+    FilePond
+  },
   data() {
     return {
       dog: {},
@@ -33,16 +56,40 @@ export default {
     ...mapState(['token']),
   },
   methods: {
+    handleFilePondInit: function() {
+      console.log('FilePond has initialized');
+    },
     async fetchDog() {
       const response = await axios.get(`/api/dogs/${this.$route.params.id}`);
       this.dog = response.data;
     },
     async editDog() {
-      const config = {
-        headers: { Authorization: `Bearer ${this.token}` },
+      const pictureFile = this.$refs.pond.getFiles()[0].file;
+
+      const dogData = {
+        name: this.dog.name,
+        breed: this.dog.breed,
+        age: this.dog.age
       };
-      await axios.post(`/api/dogs/${this.$route.params.id}/edit`, this.dog, config);
-      this.$router.push(`/dog/${this.$route.params.id}`);
+
+      const formData = new FormData();
+      formData.append('dog', JSON.stringify(dogData)); // Convert dog data to JSON string
+      formData.append('picture', pictureFile, pictureFile.name); // Append picture as a blob
+
+      const config = {
+        headers: {
+          Authorization: `Bearer ${this.token}`,
+          // 'Content-Type': 'multipart/form-data'
+        },
+      };
+
+      try {
+        await axios.post(`/api/dogs/${this.$route.params.id}/edit`, this.dog, config);
+        this.$router.push(`/dog/${this.$route.params.id}`);
+      } catch (error) {
+        console.error('Error editing dog:', error);
+        // Handle error
+      }
     },
   },
   created() {
@@ -69,6 +116,6 @@ input {
 }
 
 button {
-  @apply px-4 py-2 mt-4 text-sm font-medium text-white bg-blue-500 rounded hover:bg-blue-700 focus:outline-none;
+  @apply px-4 py-2 mt-4 text-sm font-medium text-white bg-blue-500 rounded hover:bg-blue-700 focus:outline-none mb-8;
 }
 </style>
