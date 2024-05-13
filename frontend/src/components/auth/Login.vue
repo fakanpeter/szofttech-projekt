@@ -1,5 +1,6 @@
 <template>
   <div class="login-container">
+    <h1 class="title">Bejelentkezés</h1>
     <div v-if="registrationSuccess" class="alert alert-success">
       Regisztráció sikeres! Most már bejelentkezhetsz.
     </div>
@@ -94,5 +95,9 @@ p {
 
 .alert-error {
   @apply bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4;
+}
+
+.title {
+  @apply text-4xl font-bold mb-8 text-center p-4;
 }
 </style>

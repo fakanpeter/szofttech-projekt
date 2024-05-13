@@ -1,5 +1,9 @@
 <template>
   <div class="login-container">
+    <h1 class="title">Regisztráció</h1>
+    <div v-if="error" class="alert alert-error">
+      {{ error }}
+    </div>
     <form @submit.prevent="register">
       <div class="input-group">
         <label for="username">Felhasználónév</label>
@@ -23,6 +27,7 @@ export default {
     return {
       username: '',
       password: '',
+      error: '',
     };
   },
   methods: {
@@ -44,9 +49,9 @@ export default {
 
         // Display error message
         if (error.response && error.response.data) {
-          alert('Registration failed: ' + error.response.data);
+          this.error = 'Registration failed: ' + error.response.data;
         } else {
-          alert('Registration failed: ' + error.message);
+          this.error = 'Registration failed: ' + error.message;
         }
       }
     },
@@ -73,5 +78,13 @@ input {
 
 button {
   @apply px-4 py-2 mt-4 text-sm font-medium text-white bg-blue-500 rounded hover:bg-blue-700 focus:outline-none;
+}
+
+.title {
+  @apply text-4xl font-bold mb-8 text-center p-4;
+}
+
+.alert-error {
+  @apply bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4;
 }
 </style>
