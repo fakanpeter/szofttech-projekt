@@ -6,7 +6,6 @@ import hu.pazmany.jpe.DogEntity;
 import hu.pazmany.jpe.DogRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -45,7 +44,7 @@ public class DogService {
         dogRepository.save(newDog);
     }
 
-    public void editDog(Integer id,DetailedDogDTO editRequest, MultipartFile mpf) throws IOException {
+    public void editDog(Integer id, DetailedDogDTO editRequest, MultipartFile mpf) throws IOException {
         Optional<DogEntity> optionalDog = dogRepository.findById(id);
         if (optionalDog.isPresent()) {
             DogEntity dogEntity = optionalDog.get();

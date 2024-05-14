@@ -7,6 +7,10 @@ public class DetailedDogDTO extends DogDTO{
         this.breed = breed;
     }
 
+    public DetailedDogDTO() {
+
+    }
+
     private Integer age;
 
     private String breed;

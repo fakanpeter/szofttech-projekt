@@ -11,6 +11,10 @@ public class DogDTO {
         this.picture = picture;
     }
 
+    public DogDTO(){
+
+    }
+
     public Integer getId() {
         return id;
     }
