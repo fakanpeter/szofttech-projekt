@@ -102,8 +102,9 @@ public class Controller {
 	@PostMapping("/register")
 	public ResponseEntity<?> registerUser(@Valid @RequestBody UserDTO request) {
 		// Validate the registration request
-		if (!isValidRegisterRequest(request)) {
-			return ResponseEntity.badRequest().body("Invalid registration request");
+		ValidationError validationError = validateRegisterRequest(request);
+		if (validationError != null) {
+			return ResponseEntity.badRequest().body(validationError.getMessage());
 		}
 
 		// Check if the username is already taken
@@ -132,6 +133,9 @@ public class Controller {
 		return ResponseEntity.ok(userDTO);
 	}
 
+
+	/*--------  Validation functions  --------*/
+
 	private boolean isValidLoginRequest(UserDTO request) {
 		if (request == null) {
 			return false;
@@ -144,16 +148,22 @@ public class Controller {
 		// If all checks pass, return true
     }
 
-	private boolean isValidRegisterRequest(UserDTO request) {
+	private ValidationError validateRegisterRequest(UserDTO request) {
 		String username_regex = "^\\w{5,20}$";
 		// username can contain numbers, upper and lowercase characters
 		String password_regex = "^(?=.*[A-Z])(?=.*\\d)[A-Za-z\\d]{8,20}$";
 
-		return (request != null
-				&& request.getUsername() != null
-				&& request.getPassword() != null
-				&& Pattern.matches(username_regex, request.getUsername())
-				&& Pattern.matches(password_regex, request.getPassword()));
+		if(request == null || request.getUsername() == null || request.getPassword() == null) {
+			return new RequestValidationError();
+		}
+		if(!Pattern.matches(username_regex, request.getUsername())) {
+			return new UsernameValidationError();
+		}
+		if(!Pattern.matches(password_regex, request.getPassword())) {
+			return new PasswordValidationError();
+		}
+
+		return null;
 	}
 
 	private boolean isValidToken(String token) {
@@ -164,4 +174,17 @@ public class Controller {
 		JwtTokenProvider tokenProvider = new JwtTokenProvider();
 		return tokenProvider.validateToken(token);
 	}
+
+	private abstract class ValidationError {
+		private String message;
+
+		public String getMessage() {
+			return message;
+		}
+
+		ValidationError(String m) { message = m; }
+	}
+	private class RequestValidationError extends ValidationError { RequestValidationError() { super("Érvénytelen kérés"); } }
+	private class UsernameValidationError extends ValidationError { UsernameValidationError() { super("Érvénytelen felhasználónév"); } }
+	private class PasswordValidationError extends ValidationError { PasswordValidationError() { super("Érvénytelen jelszó"); } }
 }
