@@ -18,6 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
+import java.util.regex.Pattern;
 
 @RestController
 @RequestMapping("/api")
@@ -144,7 +145,15 @@ public class Controller {
     }
 
 	private boolean isValidRegisterRequest(UserDTO request) {
-		return request != null && request.getUsername() != null && request.getPassword() != null;
+		String username_regex = "^\\w{5,20}$";
+		// username can contain numbers, upper and lowercase characters
+		String password_regex = "^(?=.*[A-Z])(?=.*\\d)[A-Za-z\\d]{8,20}$";
+
+		return (request != null
+				&& request.getUsername() != null
+				&& request.getPassword() != null
+				&& Pattern.matches(username_regex, request.getUsername())
+				&& Pattern.matches(password_regex, request.getPassword()));
 	}
 
 	private boolean isValidToken(String token) {
