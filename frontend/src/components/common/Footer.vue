@@ -9,7 +9,3 @@ export default {
   name: 'Footer'
 }
 </script>
-
-<style scoped lang="postcss">
-/* Add your styles here */
-</style>

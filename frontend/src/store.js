@@ -23,4 +23,12 @@ export default createStore({
             state.registrationSuccess = success;
         }
     },
+    getters: {
+        isAuthenticated: state => !!state.token,
+    },
+    actions: {
+        checkAuthenticationStatus: ({ getters }) => {
+            return Promise.resolve(getters.isAuthenticated);
+        },
+    },
 });

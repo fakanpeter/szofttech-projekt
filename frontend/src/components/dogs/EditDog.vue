@@ -1,5 +1,5 @@
 <template>
-  <div class="edit-dog-container">
+  <div class="global-container">
     <h1>Kutya szerkesztése</h1>
     <div v-if="errorMessage" class="alert alert-error">
       {{ errorMessage }}

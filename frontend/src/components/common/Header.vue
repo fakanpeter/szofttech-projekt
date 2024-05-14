@@ -1,6 +1,6 @@
 <template>
   <nav>
-    <h1 class="title">Vau-Vau Alapítvány</h1>
+    <router-link to="/" class="title">Vau-Vau Alapítvány</router-link>
     <ul>
       <li><router-link to="/" class="nav-link" active-class="active-link">Főoldal</router-link></li>
       <li><router-link to="/dogs" class="nav-link" active-class="active-link">Kutyák</router-link></li>

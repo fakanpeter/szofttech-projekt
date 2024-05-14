@@ -1,6 +1,6 @@
 <template>
-  <div class="dog-list-container">
-    <router-link to="/add-dog" class="add-button">Új kutya hozzáadása</router-link>
+  <div class="global-container">
+    <router-link to="/add-dog" class="button">Új kutya hozzáadása</router-link>
     <div v-if="!loaded">
       Betöltés...
     </div>
@@ -71,31 +71,21 @@ export default {
 </script>
 
 <style scoped lang="postcss">
-.dog-list-container {
-  @apply flex flex-col justify-center items-center flex-grow bg-blue-200;
-}
 
 .dog-item-container {
   @apply flex flex-wrap justify-around p-4 rounded;
 }
 
 .dog-item {
-  @apply flex flex-col items-center bg-white m-4 p-4 rounded shadow w-1/4;
+  @apply flex flex-col items-center bg-white m-4 p-4 rounded shadow w-1/4 min-w-64 min-h-64;
 }
 
 .dog-image {
-  @apply w-full h-64 object-cover mb-4 rounded;
+  @apply w-full h-64 object-cover mb-4 rounded min-w-64 min-h-64;
 }
 
 .dog-name {
   @apply text-lg font-bold;
 }
 
-.alert-error {
-  @apply bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4;
-}
-
-.add-button {
-  @apply px-4 py-2 mt-4 text-sm font-medium text-white bg-blue-500 rounded hover:bg-blue-700 focus:outline-none mb-8;
-}
 </style>

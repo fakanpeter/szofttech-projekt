@@ -21,7 +21,7 @@ const routes = [
     {path: '/faq', component: FAQ},
     {path: '/dog/:id', name: 'SingleDog', component: SingleDog},
     {path: '/edit-dog/:id', name: 'EditDog', component: EditDog, meta: {requiresAuth: true}},
-    {path: '/login', component: Login},
+    {path: '/login', component: Login, name: 'Login'},
     {path: '/register', component: Register},
     {path: '/add-dog', name: 'AddDog', component: AddDog, meta: {requiresAuth: true}},
     {path: '/:pathMatch(.*)*', redirect: '/'}
@@ -33,11 +33,18 @@ const router = createRouter({
 })
 
 router.beforeEach((to, from, next) => {
-    if (to.name === 'edit' && !store.state.token) {
-        next({ name: 'login' })
+    if (to.meta.requiresAuth) {
+        store.dispatch('checkAuthenticationStatus')
+            .then(isAuthenticated => {
+                if (!isAuthenticated) {
+                    next({ name: 'Login', query: { redirect: to.fullPath } });
+                } else {
+                    next();
+                }
+            });
     } else {
-        next()
+        next();
     }
-})
+});
 
 createApp(App).use(router).use(store).mount('#app');

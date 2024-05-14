@@ -1,5 +1,5 @@
 <template>
-  <div class="login-container">
+  <div class="global-container">
     <h1 class="title">Regisztráció</h1>
     <div v-if="errorMessage" class="alert alert-error">
       {{ errorMessage }}
@@ -40,21 +40,16 @@ export default {
     };
 
     const validateForm = () => {
-      const usernameRegex = /^[a-zA-Z0-9]+$/;
-      const minLength = 5;
+      const usernameRegex = /^\w{5,20}$/; // username can contain numbers, upper and lowercase characters
+      const passwordRegex = /^(?=.*[A-Z])(?=.*\d)[A-Za-z\d]{8,20}$/; // password must contain at least one uppercase letter and one digit
 
       if (!username.value) {
         errorMessage.value = 'Felhasználónév megadása kötelező';
         return false;
       }
 
-      if (username.value.length < minLength) {
-        errorMessage.value = 'A felhasználónév legalább 5 karakter hosszú kell legyen';
-        return false;
-      }
-
       if (!username.value.match(usernameRegex)) {
-        errorMessage.value = 'Felhasználónév csak betűket és számokat tartalmazhat';
+        errorMessage.value = 'Érvénytelen felhasználónév. A felhasználónévnek legalább 5 és legfeljebb 20 karakter hosszúnak kell lennie.';
         return false;
       }
 
@@ -63,12 +58,12 @@ export default {
         return false;
       }
 
-      if (password.value.length < minLength) {
-        errorMessage.value = 'A jelszó legalább 5 karakter hosszú kell legyen';
+      if (!password.value.match(passwordRegex)) {
+        errorMessage.value = 'Érvénytelen jelszó. A jelszónak legalább 8 és legfeljebb 20 karakter hosszúnak kell lennie, és tartalmaznia kell legalább egy nagybetűt és egy számot.';
         return false;
       }
 
-      errorMessage.value = '';  // Clear the error message if all fields are valid
+      errorMessage.value = '';
       return true;
     };
 
@@ -90,9 +85,9 @@ export default {
 
         // Display error message
         if (error.response && error.response.data) {
-          errorMessage.value = 'Registration failed: ' + error.response.data;
+          errorMessage.value = 'Regisztráció sikertelen: ' + error.response.data;
         } else {
-          errorMessage.value = 'Registration failed: ' + error.message;
+          errorMessage.value = 'Regisztráció sikertelen: ' + error.message;
         }
       }
     };
@@ -106,33 +101,3 @@ export default {
   },
 };
 </script>
-
-<style lang="postcss">
-.login-container {
-  @apply flex flex-col items-center justify-center min-h-screen bg-blue-200;
-}
-
-.input-group {
-  @apply mb-4;
-}
-
-label {
-  @apply block mb-2 text-sm font-bold text-gray-700;
-}
-
-input {
-  @apply w-full px-3 py-2 text-sm leading-tight text-gray-700 border rounded shadow appearance-none;
-}
-
-button {
-  @apply px-4 py-2 mt-4 text-sm font-medium text-white bg-blue-500 rounded hover:bg-blue-700 focus:outline-none mb-8;
-}
-
-.title {
-  @apply text-4xl font-bold mb-8 text-center p-4;
-}
-
-.alert-error {
-  @apply bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4;
-}
-</style>

@@ -1,5 +1,5 @@
 <template>
-  <div class="edit-dog-container">
+  <div class="global-container">
     <h1>Kutya hozzáadása</h1>
     <div v-if="errorMessage" class="alert alert-error">
       {{ errorMessage }}
@@ -76,25 +76,3 @@ export default {
   },
 };
 </script>
-
-<style lang="postcss">
-.edit-dog-container {
-  @apply flex flex-col items-center justify-center min-h-screen bg-blue-200;
-}
-
-.input-group {
-  @apply mb-4;
-}
-
-label {
-  @apply block mb-2 text-sm font-bold text-gray-700;
-}
-
-input {
-  @apply w-full px-3 py-2 text-sm leading-tight text-gray-700 border rounded shadow appearance-none;
-}
-
-button {
-  @apply px-4 py-2 mt-4 text-sm font-medium text-white bg-blue-500 rounded hover:bg-blue-700 focus:outline-none;
-}
-</style>
