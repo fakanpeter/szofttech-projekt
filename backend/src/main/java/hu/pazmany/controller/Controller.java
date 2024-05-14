@@ -59,9 +59,9 @@ public class Controller {
         try {
             dogService.addNewDog(dto);
         } catch (IOException e) {
-            return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Wrong picture format, vagy nem tudom én ide csak feljárok");
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Hibás képformátum");
         }
-        return ResponseEntity.status(HttpStatus.CREATED).body("Dog created successfully");
+        return ResponseEntity.status(HttpStatus.CREATED).body("Kutya sikeresen hozzáadva");
     }
 
     @PostMapping(value = "/dogs/{id}/edit", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
@@ -76,16 +76,16 @@ public class Controller {
             try {
                 dogDTO = objectMapper.readValue(stringDogDTO, DetailedDogDTO.class);
             } catch (IOException e) {
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid DogDTO JSON format");
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Hibás JSON formátum");
             }
             // Save the updated dog entity
             try {
                 dogService.editDog(id, dogDTO, mpf);
             } catch (IOException e) {
-                return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Wrong picture format, vagy nem tudom én ide csak feljárok");
+                return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Hibás képformátum");
             }
 
-            return ResponseEntity.ok("Dog attributes updated successfully");
+            return ResponseEntity.ok("Kutya sikeresen módosítva");
         } else {
             return ResponseEntity.notFound().build();
         }
@@ -109,13 +109,13 @@ public class Controller {
 
         // Check if the username is already taken
         if (userService.isUserExists(request.getUsername())) {
-            return ResponseEntity.badRequest().body("Username already exists");
+            return ResponseEntity.badRequest().body("Felhasználónév foglalt");
         }
 
         // Save the user entity
         userService.registerUser(request);
 
-        return ResponseEntity.status(HttpStatus.CREATED).body("User registered successfully");
+        return ResponseEntity.status(HttpStatus.CREATED).body("Felhasználó sikeresen létrehozva");
     }
 
     @PostMapping("/login")
