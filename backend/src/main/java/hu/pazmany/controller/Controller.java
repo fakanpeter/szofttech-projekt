@@ -25,7 +25,7 @@ import java.util.regex.Pattern;
 public class Controller {
 	private final DogService dogService;
 	private final UserService userService;
-	private static final JwtTokenProvider jwtTokenProvider = JwtTokenProvider.getInstance();
+	private final JwtTokenProvider jwtTokenProvider = JwtTokenProvider.getInstance();
 
 	@Autowired
 	public Controller(DogService dogService, UserService userService) {
@@ -53,7 +53,6 @@ public class Controller {
 
 	@PostMapping("/newdog")
 	public ResponseEntity<?> addNewDog(@RequestBody DetailedDogDTO dto, @RequestHeader("Authorization") String token) {
-		System.out.println(token);
 		if(!isValidToken(token)) return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
 
 		// Save the dog and picture

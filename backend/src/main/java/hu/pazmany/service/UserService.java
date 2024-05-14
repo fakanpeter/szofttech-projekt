@@ -48,16 +48,11 @@ public class UserService {
                 UserDTO userDTO = new UserDTO();
                 userDTO.setUsername(request.getUsername());
                 userDTO.setToken(token);
-                System.out.println("login: " + token);
                 return userDTO;
             }
         }
         // Invalid credentials
         return null;
-    }
-
-    private String generateToken(Integer userId, JwtTokenProvider jwtTokenProvider) {
-        return jwtTokenProvider.generateToken(userId);
     }
 
     public boolean isUserExists(String username) {

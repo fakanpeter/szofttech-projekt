@@ -23,7 +23,6 @@ public class JwtTokenProvider {
                 .setSubject(String.valueOf(userId))
                 .signWith(secretKey)
                 .compact();
-        System.out.println("Generated Token: " + token);
         return token;
     }
 
@@ -36,12 +35,10 @@ public class JwtTokenProvider {
                     .parseClaimsJws(token)
                     .getBody()
                     .getSubject();
-            System.out.println(userId);
             // Check if the username is not null or empty
             return userId != null && !userId.isEmpty();
         } catch (JwtException | IllegalArgumentException e) {
             // Token is invalid or malformed
-            System.out.println("Token validation failed: " + e.getMessage());
             return false;
         }
     }
