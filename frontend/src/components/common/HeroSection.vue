@@ -1,12 +1,24 @@
 <template>
   <section class="hero">
     <img class="hero-image"
-         src="https://images.pexels.com/photos/356378/pexels-photo-356378.jpeg?auto=compress&cs=tinysrgb&h=350"
+         :src="heroImage"
          alt="Hero Image">
     <h1>Üdv a Vau-Vau Alapítvány weboldalán!</h1>
     <p>Találd meg a tökéletes háziállatod még ma!</p>
   </section>
 </template>
+
+<script>
+import heroImage from '@/assets/hero_kutya.jpeg'
+
+export default {
+  data() {
+    return {
+      heroImage
+    }
+  }
+}
+</script>
 
 <style scoped lang="postcss">
 .hero {
