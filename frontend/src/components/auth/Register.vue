@@ -1,10 +1,10 @@
 <template>
   <div class="login-container">
     <h1 class="title">Regisztráció</h1>
-    <div v-if="error" class="alert alert-error">
-      {{ error }}
+    <div v-if="errorMessage" class="alert alert-error">
+      {{ errorMessage }}
     </div>
-    <form @submit.prevent="register">
+    <form @submit.prevent="validateAndRegister">
       <div class="input-group">
         <label for="username">Felhasználónév</label>
         <input id="username" v-model="username" type="text" required autocomplete="username">
@@ -20,28 +20,69 @@
 
 <script>
 import axios from '@/axiosConfig.js';
+import { ref } from 'vue';
+import { useStore } from 'vuex';
+import { useRouter } from 'vue-router';
 
 export default {
   name: 'Register',
-  data() {
-    return {
-      username: '',
-      password: '',
-      error: '',
+  setup() {
+    const username = ref('');
+    const password = ref('');
+    const errorMessage = ref('');
+    const store = useStore();
+    const router = useRouter();
+
+    const validateAndRegister = () => {
+      if (validateForm()) {
+        register();
+      }
     };
-  },
-  methods: {
-    async register() {
+
+    const validateForm = () => {
+      const usernameRegex = /^[a-zA-Z0-9]+$/;
+      const minLength = 5;
+
+      if (!username.value) {
+        errorMessage.value = 'Felhasználónév megadása kötelező';
+        return false;
+      }
+
+      if (username.value.length < minLength) {
+        errorMessage.value = 'A felhasználónév legalább 5 karakter hosszú kell legyen';
+        return false;
+      }
+
+      if (!username.value.match(usernameRegex)) {
+        errorMessage.value = 'Felhasználónév csak betűket és számokat tartalmazhat';
+        return false;
+      }
+
+      if (!password.value) {
+        errorMessage.value = 'Jelszó megadása kötelező';
+        return false;
+      }
+
+      if (password.value.length < minLength) {
+        errorMessage.value = 'A jelszó legalább 5 karakter hosszú kell legyen';
+        return false;
+      }
+
+      errorMessage.value = '';  // Clear the error message if all fields are valid
+      return true;
+    };
+
+    const register = async () => {
       try {
         const response = await axios.post('/api/register', {
-          username: this.username,
-          password: this.password
+          username: username.value,
+          password: password.value
         });
 
         // If registration is successful, redirect to login page
         if (response.status === 201) {
-          this.$store.commit('setRegistrationSuccess', true);
-          this.$router.push('/login');
+          store.commit('setRegistrationSuccess', true);
+          router.push('/login');
         }
       } catch (error) {
         // Handle error
@@ -49,12 +90,19 @@ export default {
 
         // Display error message
         if (error.response && error.response.data) {
-          this.error = 'Registration failed: ' + error.response.data;
+          errorMessage.value = 'Registration failed: ' + error.response.data;
         } else {
-          this.error = 'Registration failed: ' + error.message;
+          errorMessage.value = 'Registration failed: ' + error.message;
         }
       }
-    },
+    };
+
+    return {
+      username,
+      password,
+      errorMessage,
+      validateAndRegister,
+    };
   },
 };
 </script>
@@ -77,7 +125,7 @@ input {
 }
 
 button {
-  @apply px-4 py-2 mt-4 text-sm font-medium text-white bg-blue-500 rounded hover:bg-blue-700 focus:outline-none;
+  @apply px-4 py-2 mt-4 text-sm font-medium text-white bg-blue-500 rounded hover:bg-blue-700 focus:outline-none mb-8;
 }
 
 .title {

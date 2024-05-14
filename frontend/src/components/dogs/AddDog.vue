@@ -1,7 +1,10 @@
 <template>
   <div class="edit-dog-container">
     <h1>Kutya hozzáadása</h1>
-    <form @submit.prevent="addDog">
+    <div v-if="errorMessage" class="alert alert-error">
+      {{ errorMessage }}
+    </div>
+    <form @submit.prevent="validateAndAddDog" enctype="multipart/form-data">
       <div class="input-group">
         <label for="name">Neve</label>
         <input id="name" v-model="dog.name" type="text" required>
@@ -27,12 +30,42 @@ export default {
   data() {
     return {
       dog: {},
+      errorMessage: '',
     };
   },
   computed: {
     ...mapState(['token']),
   },
   methods: {
+    validateAndAddDog() {
+      if (this.validateForm()) {
+        this.addDog();
+      }
+    },
+    validateForm() {
+      const name = this.dog.name;
+      const breed = this.dog.breed;
+      const age = this.dog.age;
+      const regex = /^[a-zA-ZáéíóöőúüűÁÉÍÓÖŐÚÜŰ]*$/;
+
+      if (!name.match(regex)) {
+        this.errorMessage = "Helytelen név. Csak betűket tartalmazhat.";
+        return false;
+      }
+
+      if (!breed.match(regex)) {
+        this.errorMessage = "Helytelen fajta. Csak betűket tartalmazhat.";
+        return false;
+      }
+
+      if (age < 0) {
+        this.errorMessage = "Helytelen kor. Nem lehet negatív.";
+        return false;
+      }
+
+      this.errorMessage = '';  // Clear the error message if all fields are valid
+      return true;
+    },
     async addDog() {
       const config = {
         headers: { Authorization: `Bearer ${this.token}` },
