@@ -9,7 +9,7 @@ sudo docker run \
 	-w /app \
 	-p 8080:8080 \
 	-u $(id -u):$(id -g) \
-	--name szofttech_webapp_backend \
+	--name szofttech-webapp-backend \
 	--network szofttech_webapp_network \
 	eclipse-temurin:21-jdk \
 	./mvnw spring-boot:run
