@@ -6,7 +6,10 @@ import hu.pazmany.jpe.DogEntity;
 import hu.pazmany.jpe.DogRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
@@ -30,20 +33,20 @@ public class DogService {
                 dogEntity.getPicture(), dogEntity.getAge(), dogEntity.getBreed()));
     }
 
-    public void addNewDog(DetailedDogDTO dto) {
+    public void addNewDog(DetailedDogDTO dto) throws IOException {
         DogEntity newDog = new DogEntity();
         //newDog.setId(dogRepository.findAllDogs().size());
         //System.out.println(newDog.getId());
+
         newDog.setName(dto.getName());
-        newDog.setPicture(dto.getPicture());
+        //newDog.setPicture(pic.getBytes());
         newDog.setBreed(dto.getBreed());
         newDog.setAge(dto.getAge());
         dogRepository.save(newDog);
     }
 
-    public void editDog(Integer id, DetailedDogDTO editRequest) {
+    public void editDog(Integer id,DetailedDogDTO editRequest, MultipartFile mpf) throws IOException {
         Optional<DogEntity> optionalDog = dogRepository.findById(id);
-
         if (optionalDog.isPresent()) {
             DogEntity dogEntity = optionalDog.get();
 
@@ -51,8 +54,8 @@ public class DogService {
             if (editRequest.getName() != null) {
                 dogEntity.setName(editRequest.getName());
             }
-            if (editRequest.getPicture() != null) {
-                dogEntity.setPicture(editRequest.getPicture());
+            if (mpf.getBytes() != null) {
+                    dogEntity.setPicture(mpf.getBytes());
             }
             if (editRequest.getAge() != null) {
                 dogEntity.setAge(editRequest.getAge());

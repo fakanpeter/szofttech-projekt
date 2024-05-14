@@ -1,5 +1,6 @@
 package hu.pazmany.controller;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import hu.pazmany.dto.DetailedDogDTO;
 import hu.pazmany.dto.DogDTO;
 import hu.pazmany.dto.UserDTO;
@@ -9,9 +10,12 @@ import hu.pazmany.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
@@ -48,23 +52,39 @@ public class Controller {
 	@PostMapping("/newdog")
 	public ResponseEntity<?> addNewDog(@RequestBody DetailedDogDTO dto, @RequestHeader("Authorization") String token) {
 		if(!isValidToken(token)) return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-
-		dogService.addNewDog(dto);
-		return ResponseEntity.status(HttpStatus.CREATED).build();
-
+		// Save the dog and picture
+        try {
+            dogService.addNewDog(dto);
+        } catch (IOException e) {
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Wrong picture format, vagy nem tudom én ide csak feljárok");
+        }
+        return ResponseEntity.status(HttpStatus.CREATED).body("Dog created successfully");
 	}
 
-	@PostMapping("/dogs/{id}/edit")
-	public ResponseEntity<?> editDog(@PathVariable Integer id, @RequestBody DetailedDogDTO dto, @RequestHeader("Authorization") String token) {
+	@PostMapping(value = "/dogs/{id}/edit",  consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+	public ResponseEntity<?> editDog(@PathVariable Integer id, @RequestHeader("Authorization") String token, @RequestParam("dog") String stringDogDTO, @RequestParam("picture") MultipartFile mpf) {
 		if (!isValidToken(token)) return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+		System.out.println(stringDogDTO);
+
+
 		// Retrieve the dog entity from the database
 		Optional<DetailedDogDTO> optionalDog = dogService.get(id);
+		ObjectMapper objectMapper = new ObjectMapper();
+		DetailedDogDTO dogDTO;
 		if (optionalDog.isPresent()) {
-
+			try {
+				dogDTO = objectMapper.readValue(stringDogDTO, DetailedDogDTO.class);
+			} catch (IOException e) {
+				return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid DogDTO JSON format");
+			}
 			// Save the updated dog entity
-			dogService.editDog(id,dto);
+            try {
+                dogService.editDog(id, dogDTO, mpf);
+            } catch (IOException e) {
+                return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Wrong picture format, vagy nem tudom én ide csak feljárok");
+            }
 
-			return ResponseEntity.ok("Dog attributes updated successfully");
+            return ResponseEntity.ok("Dog attributes updated successfully");
 		} else {
 			return ResponseEntity.notFound().build();
 		}

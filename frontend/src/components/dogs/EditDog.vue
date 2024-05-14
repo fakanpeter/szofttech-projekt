@@ -117,7 +117,7 @@ export default {
       };
 
       try {
-        await axios.post(`/api/dogs/${this.$route.params.id}/edit`, this.dog, config);
+        await axios.post(`/api/dogs/${this.$route.params.id}/edit`, formData, config);
         this.$router.push(`/dog/${this.$route.params.id}`);
       } catch (error) {
         console.error('Error editing dog:', error);
