@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
+
 @Service
 public class UserService {
     private final UserRepository userRepository;
@@ -35,18 +36,19 @@ public class UserService {
         userRepository.save(userEntity);
     }
 
-    public UserDTO login(UserDTO request) {
+    public UserDTO login(UserDTO request, JwtTokenProvider jwtTokenProvider) {
         Optional<UserEntity> userOptional = userRepository.findByUsername(request.getUsername());
         if (userOptional.isPresent()) {
             UserEntity userEntity = userOptional.get();
             // Check if the password matches
             if (passwordEncoder.matches(request.getPassword(), userEntity.getPassword())) {
                 // Password matches, generate token using user's ID
-                String token = generateToken(userEntity.getId());
+                String token = jwtTokenProvider.generateToken(userEntity.getId());
                 // Create and return UserDTO with token
                 UserDTO userDTO = new UserDTO();
                 userDTO.setUsername(request.getUsername());
                 userDTO.setToken(token);
+                System.out.println("login: " + token);
                 return userDTO;
             }
         }
@@ -54,9 +56,8 @@ public class UserService {
         return null;
     }
 
-    private String generateToken(Integer userId) {
-        JwtTokenProvider tokenProvider = new JwtTokenProvider();
-        return tokenProvider.generateToken(userId);
+    private String generateToken(Integer userId, JwtTokenProvider jwtTokenProvider) {
+        return jwtTokenProvider.generateToken(userId);
     }
 
     public boolean isUserExists(String username) {

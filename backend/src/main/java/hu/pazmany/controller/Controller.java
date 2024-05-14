@@ -25,6 +25,7 @@ import java.util.regex.Pattern;
 public class Controller {
 	private final DogService dogService;
 	private final UserService userService;
+	private static final JwtTokenProvider jwtTokenProvider = JwtTokenProvider.getInstance();
 
 	@Autowired
 	public Controller(DogService dogService, UserService userService) {
@@ -52,7 +53,9 @@ public class Controller {
 
 	@PostMapping("/newdog")
 	public ResponseEntity<?> addNewDog(@RequestBody DetailedDogDTO dto, @RequestHeader("Authorization") String token) {
+		System.out.println(token);
 		if(!isValidToken(token)) return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+
 		// Save the dog and picture
         try {
             dogService.addNewDog(dto);
@@ -65,8 +68,6 @@ public class Controller {
 	@PostMapping(value = "/dogs/{id}/edit",  consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
 	public ResponseEntity<?> editDog(@PathVariable Integer id, @RequestHeader("Authorization") String token, @RequestParam("dog") String stringDogDTO, @RequestParam("picture") MultipartFile mpf) {
 		if (!isValidToken(token)) return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-		System.out.println(stringDogDTO);
-
 
 		// Retrieve the dog entity from the database
 		Optional<DetailedDogDTO> optionalDog = dogService.get(id);
@@ -124,7 +125,7 @@ public class Controller {
 			return ResponseEntity.badRequest().body(null);
 		}
 
-		UserDTO userDTO = userService.login(request);
+		UserDTO userDTO = userService.login(request, jwtTokenProvider);
 
 		if (userDTO == null) {
 			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
@@ -167,12 +168,17 @@ public class Controller {
 	}
 
 	private boolean isValidToken(String token) {
-		return token != null || verifyTokenSignature(token);
+		return token != null && verifyTokenSignature(token);
 	}
 
 	private boolean verifyTokenSignature(String token) {
-		JwtTokenProvider tokenProvider = new JwtTokenProvider();
-		return tokenProvider.validateToken(token);
+		if (token.startsWith("Bearer ")) {
+			token = token.substring(7);
+			return jwtTokenProvider.validateToken(token);
+		} else {
+			return false;
+		}
+
 	}
 
 	private abstract class ValidationError {
