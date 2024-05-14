@@ -19,7 +19,7 @@
 </template>
 
 <script>
-import axios from '@/axiosConfig.js';
+import { axios, apiURL } from '@/axiosConfig.js';
 import { ref } from 'vue';
 import { useStore } from 'vuex';
 import { useRouter } from 'vue-router';
@@ -74,7 +74,7 @@ export default {
 
     const register = async () => {
       try {
-        const response = await axios.post('/api/register', {
+        const response = await axios.post(apiURL + '/register', {
           username: username.value,
           password: password.value
         });

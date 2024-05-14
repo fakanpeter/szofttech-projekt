@@ -23,7 +23,7 @@
 </template>
 
 <script>
-import axios from '@/axiosConfig.js';
+import { axios, apiURL } from '@/axiosConfig.js';
 import { mapState } from 'vuex';
 
 export default {
@@ -70,7 +70,7 @@ export default {
       const config = {
         headers: { Authorization: `Bearer ${this.token}` },
       };
-      await axios.post(`/api/newdog`, this.dog, config);
+      await axios.post(apiURL + '/newdog', this.dog, config);
       this.$router.push(`/dogs`);
     },
   },

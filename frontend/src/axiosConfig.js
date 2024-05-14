@@ -1,5 +1,4 @@
-import axios from 'axios';
+export {default as axios} from 'axios';
 
-axios.defaults.baseURL = 'http://localhost:8080';
-
-export default axios;
+export const apiURL = 'http://localhost:8080/api'; // local development
+// export const apiURL = '/api'; // nginx

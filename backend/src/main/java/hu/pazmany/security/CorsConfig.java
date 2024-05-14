@@ -10,7 +10,10 @@ public class CorsConfig implements WebMvcConfigurer {
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
-                .allowedOrigins("http://localhost/", "https://localhost/", "http://127.0.0.1/", "https://127.0.0.1/", "https://vau-vau.web.app/", "http://localhost:3000", "http://localhost:3001", "http://localhost:3002", "http://localhost:8080")
+                .allowedOrigins(
+                    "https://vau-vau.web.app/", // from Firebase webapp frontend
+                    "http://127.0.0.1:3000/", "http://localhost:3000/", // from nodejs frontend
+                    "http://127.0.0.1/", "http://localhost/") // from nginx frontend
                 .allowedMethods("*");
     }
 }

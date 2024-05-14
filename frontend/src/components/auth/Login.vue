@@ -24,8 +24,8 @@
 </template>
 
 <script>
-import axios from '@/axiosConfig.js';
-import {mapState} from "vuex";
+import { axios, apiURL } from '@/axiosConfig.js';
+import { mapState } from "vuex";
 
 export default {
   name: 'Login',
@@ -35,7 +35,7 @@ export default {
   methods: {
     async login() {
       try {
-        const response = await axios.post('/api/login', {
+        const response = await axios.post(apiURL + '/login', {
           username: this.username,
           password: this.password
         });

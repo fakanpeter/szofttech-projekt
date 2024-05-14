@@ -35,7 +35,7 @@
 </template>
 
 <script>
-import axios from '@/axiosConfig.js';
+import { axios, apiURL } from '@/axiosConfig.js';
 import { mapState } from 'vuex';
 import vueFilePond from 'vue-filepond';
 import FilePondPluginImagePreview from 'filepond-plugin-image-preview';
@@ -64,7 +64,7 @@ export default {
       console.log('FilePond has initialized');
     },
     async fetchDog() {
-      const response = await axios.get(`/api/dogs/${this.$route.params.id}`);
+      const response = await axios.get(apiURL + `/dogs/${this.$route.params.id}`);
       this.dog = response.data;
     },
     validateAndEditDog() {
@@ -117,7 +117,7 @@ export default {
       };
 
       try {
-        await axios.post(`/api/dogs/${this.$route.params.id}/edit`, formData, config);
+        await axios.post(apiURL + `/dogs/${this.$route.params.id}/edit`, formData, config);
         this.$router.push(`/dog/${this.$route.params.id}`);
       } catch (error) {
         console.error('Error editing dog:', error);

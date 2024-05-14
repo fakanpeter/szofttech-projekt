@@ -11,7 +11,7 @@
 </template>
 
 <script>
-import axios from '@/axiosConfig.js';
+import { axios, apiURL } from '@/axiosConfig.js';
 
 export default {
   name: 'SingleDog',
@@ -23,7 +23,7 @@ export default {
   async created() {
     const id = this.$route.params.id;
     try {
-      const response = await axios.get(`/api/dogs/${id}`);
+      const response = await axios.get(apiURL + `/dogs/${id}`);
       this.dog = response.data;
     } catch (error) {
       console.error(error);
@@ -36,7 +36,7 @@ export default {
         const config = {
           headers: { Authorization: `Bearer ${this.token}` },
         };
-        await axios.delete(`/api/dogs/${this.$route.params.id}`, config);
+        await axios.delete(apiURL + `/dogs/${this.$route.params.id}`, config);
         this.$router.push(`/dogs`);
       }
     },

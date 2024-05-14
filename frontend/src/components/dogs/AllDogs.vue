@@ -20,7 +20,7 @@
 
 
 <script>
-import axios from '@/axiosConfig.js';
+import { axios, apiURL } from '@/axiosConfig.js';
 
 export default {
   name: 'AllDogs',
@@ -39,7 +39,7 @@ export default {
   },
   async created() {
     try {
-      const response = await axios.get('/api/dogs', {timeout: 5000}); // 5 seconds timeout
+      const response = await axios.get(apiURL + '/dogs', {timeout: 5000}); // 5 seconds timeout
       if (response.status === 200) {
         if (response.data && response.data.length > 0) {
           this.dogs = response.data;
