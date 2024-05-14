@@ -32,14 +32,19 @@ public class DogService {
                 dogEntity.getPicture(), dogEntity.getAge(), dogEntity.getBreed()));
     }
 
-    public void addNewDog(DetailedDogDTO dto) throws IOException {
-        DogEntity newDog = new DogEntity();
+    public void addNewDog(DetailedDogDTO newDogRequest, MultipartFile mpf) throws IOException {
+        DogEntity dogEntity = new DogEntity();
 
-        newDog.setName(dto.getName());
-        //newDog.setPicture(pic.getBytes());
-        newDog.setBreed(dto.getBreed());
-        newDog.setAge(dto.getAge());
-        dogRepository.save(newDog);
+        // Set fields from newDogRequest
+        dogEntity.setName(newDogRequest.getName());
+        dogEntity.setBreed(newDogRequest.getBreed());
+        dogEntity.setAge(newDogRequest.getAge());
+        if (mpf != null && !mpf.isEmpty()) {
+            dogEntity.setPicture(mpf.getBytes());
+        }
+
+        // Save the new entity
+        dogRepository.save(dogEntity);
     }
 
     public void editDog(Integer id, DetailedDogDTO editRequest, MultipartFile mpf) throws IOException {
@@ -51,8 +56,10 @@ public class DogService {
             if (editRequest.getName() != null) {
                 dogEntity.setName(editRequest.getName());
             }
-            mpf.getBytes();
-            dogEntity.setPicture(mpf.getBytes());
+            if (mpf != null) {
+                mpf.getBytes();
+                dogEntity.setPicture(mpf.getBytes());
+            }
             if (editRequest.getAge() != null) {
                 dogEntity.setAge(editRequest.getAge());
             }

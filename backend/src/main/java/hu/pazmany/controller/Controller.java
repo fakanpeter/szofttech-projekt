@@ -51,13 +51,24 @@ public class Controller {
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    @PostMapping("/newdog")
-    public ResponseEntity<?> addNewDog(@RequestBody DetailedDogDTO dto, @RequestHeader("Authorization") String token) {
+    @PostMapping(value = "/newdog")
+    public ResponseEntity<?> addNewDog(@RequestHeader("Authorization") String token, @RequestParam("dog") String stringDogDTO, @RequestParam(value = "picture", required = false) MultipartFile mpf) {
         if (!isValidToken(token)) return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
 
+        ObjectMapper objectMapper = new ObjectMapper();
+        DetailedDogDTO dogDTO;
+        try {
+            dogDTO = objectMapper.readValue(stringDogDTO, DetailedDogDTO.class);
+        } catch (IOException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Hibás JSON formátum");
+        }
         // Save the dog and picture
         try {
-            dogService.addNewDog(dto);
+            if (mpf != null && !mpf.isEmpty()) {
+                dogService.addNewDog(dogDTO, mpf);
+            } else {
+                dogService.addNewDog(dogDTO, null);
+            }
         } catch (IOException e) {
             return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Hibás képformátum");
         }
@@ -65,7 +76,7 @@ public class Controller {
     }
 
     @PostMapping(value = "/dogs/{id}/edit", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<?> editDog(@PathVariable Integer id, @RequestHeader("Authorization") String token, @RequestParam("dog") String stringDogDTO, @RequestParam("picture") MultipartFile mpf) {
+    public ResponseEntity<?> editDog(@PathVariable Integer id, @RequestHeader("Authorization") String token, @RequestParam("dog") String stringDogDTO, @RequestParam(value = "picture", required = false) MultipartFile mpf) {
         if (!isValidToken(token)) return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
 
         // Retrieve the dog entity from the database
@@ -80,7 +91,11 @@ public class Controller {
             }
             // Save the updated dog entity
             try {
-                dogService.editDog(id, dogDTO, mpf);
+                if (mpf != null && !mpf.isEmpty()) {
+                    dogService.editDog(id, dogDTO, mpf);
+                } else {
+                    dogService.editDog(id, dogDTO, null);
+                }
             } catch (IOException e) {
                 return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Hibás képformátum");
             }

@@ -1,7 +1,9 @@
 <template>
   <div v-if="dog" class="global-container">
     <h1 class="text-2xl font-bold mb-4">{{ dog.name }}</h1>
-    <img :src="dog.picture" :alt="`${dog.name} képe`" class="w-64 h-64 object-cover mb-4 rounded shadow"/>
+    <img v-if="dog"
+         :src="dog.picture ? 'data:image/jpeg;base64,' + dog.picture : 'data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 50 50\'%3E%3Ctext y=\'.9em\' font-size=\'20\'%3E' + dog.id + '%3C/text%3E%3C/svg%3E'"
+         :alt="`Image of ${dog.name}`" class="dog-image"/>
     <p class="text-lg mb-2"><strong>Kor:</strong> {{ dog.age }}</p>
     <p class="text-lg"><strong>Faj:</strong> {{ dog.breed }}</p>
     <router-link :to="`/edit-dog/${dog.id}`" tag="button" class="button">Szerkesztés</router-link>
@@ -12,6 +14,7 @@
 
 <script>
 import { axios, apiURL } from '@/axiosConfig.js';
+import {mapState} from "vuex";
 
 export default {
   name: 'SingleDog',
@@ -30,11 +33,16 @@ export default {
       // Handle error
     }
   },
+  computed: {
+    ...mapState(['token']),
+  },
   methods: {
     async deleteDog() {
       if (window.confirm('Biztosan törölni akarod ezt a kutyát?')) {
         const config = {
-          headers: { Authorization: `Bearer ${this.token}` },
+          headers: {
+            Authorization: `Bearer ${this.token}`,
+          },
         };
         try {
           await axios.delete(apiURL + `/dogs/${this.$route.params.id}`, config);
@@ -42,13 +50,16 @@ export default {
         } catch (error) {
           if (error.response && error.response.status === 401) {
             this.$router.push('/login');
+          } else if (error.response && error.response.status === 404) {
+            // Handle "Not Found" error
+            console.error('Dog not found:', error);
           } else {
-            console.error(error);
             // Handle other types of errors
+            console.error('Error deleting dog:', error);
           }
         }
       }
-    },
+    }
   },
 };
 </script>

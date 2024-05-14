@@ -97,7 +97,8 @@ export default {
       return true;
     },
     async editDog() {
-      const pictureFile = this.$refs.pond.getFiles()[0].file;
+      const files = this.$refs.pond.getFiles();
+      const pictureFile = files.length > 0 ? files[0].file : null;
 
       const dogData = {
         name: this.dog.name,
@@ -107,12 +108,15 @@ export default {
 
       const formData = new FormData();
       formData.append('dog', JSON.stringify(dogData)); // Convert dog data to JSON string
-      formData.append('picture', pictureFile, pictureFile.name); // Append picture as a blob
+      if (pictureFile) {
+        formData.append('picture', pictureFile, pictureFile.name); // Append picture as a blob only if it exists
+      } else {
+        formData.append('picture', null); // Append null if picture does not exist
+      }
 
       const config = {
         headers: {
           Authorization: `Bearer ${this.token}`,
-          // 'Content-Type': 'multipart/form-data'
         },
       };
 
@@ -120,7 +124,7 @@ export default {
         await axios.post(apiURL + `/dogs/${this.$route.params.id}/edit`, formData, config);
         this.$router.push(`/dog/${this.$route.params.id}`);
       } catch (error) {
-        console.error('Error editing dog:', error);
+        console.error('Hiba történt a kutya szerkesztése közben:', error);
         // Handle error
       }
     },
@@ -132,9 +136,6 @@ export default {
 </script>
 
 <style lang="postcss">
-.edit-dog-container {
-  @apply flex flex-col items-center justify-center min-h-screen bg-blue-200;
-}
 
 .input-group {
   @apply mb-4;

@@ -51,7 +51,7 @@ p {
 }
 
 .global-container {
-    @apply flex flex-col items-center justify-center min-h-screen bg-blue-200;
+    @apply flex flex-col items-center justify-center bg-blue-200;
 }
 
 .input-group {

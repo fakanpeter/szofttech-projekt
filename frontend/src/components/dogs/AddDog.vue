@@ -17,6 +17,18 @@
         <label for="age">Kora</label>
         <input id="age" v-model="dog.age" type="number" required>
       </div>
+      <div class="input-group">
+        <label for="dog-image">Kép</label>
+        <file-pond
+            id="dog-image"
+            name="dogPicture"
+            ref="pond"
+            label-idle="Húzza ide a fájlt..."
+            allow-multiple="false"
+            accepted-file-types="image/jpeg, image/png"
+            v-on:init="handleFilePondInit"
+        />
+      </div>
       <button type="submit">Mentés</button>
     </form>
   </div>
@@ -25,8 +37,18 @@
 <script>
 import { axios, apiURL } from '@/axiosConfig.js';
 import { mapState } from 'vuex';
+import vueFilePond from 'vue-filepond';
+import FilePondPluginImagePreview from 'filepond-plugin-image-preview';
+import FilePondPluginFileValidateType from 'filepond-plugin-file-validate-type';
+import 'filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css';
+import 'filepond/dist/filepond.min.css';
+
+const FilePond = vueFilePond(FilePondPluginFileValidateType, FilePondPluginImagePreview);
 
 export default {
+  components: {
+    FilePond
+  },
   data() {
     return {
       dog: {},
@@ -37,6 +59,9 @@ export default {
     ...mapState(['token']),
   },
   methods: {
+    handleFilePondInit: function() {
+      console.log('FilePond has initialized');
+    },
     validateAndAddDog() {
       if (this.validateForm()) {
         this.addDog();
@@ -67,11 +92,36 @@ export default {
       return true;
     },
     async addDog() {
-      const config = {
-        headers: { Authorization: `Bearer ${this.token}` },
+      const files = this.$refs.pond.getFiles();
+      const pictureFile = files.length > 0 ? files[0].file : null;
+
+      const dogData = {
+        name: this.dog.name,
+        breed: this.dog.breed,
+        age: this.dog.age
       };
-      await axios.post(apiURL + '/newdog', this.dog, config);
-      this.$router.push(`/dogs`);
+
+      const formData = new FormData();
+      formData.append('dog', JSON.stringify(dogData)); // Convert dog data to JSON string
+      if (pictureFile) {
+        formData.append('picture', pictureFile, pictureFile.name); // Append picture as a blob only if it exists
+      } else {
+        formData.append('picture', null); // Append null if picture does not exist
+      }
+
+      const config = {
+        headers: {
+          Authorization: `Bearer ${this.token}`,
+        },
+      };
+
+      try {
+        await axios.post(apiURL + `/newdog`, formData, config);
+        this.$router.push(`/dogs`);
+      } catch (error) {
+        console.error('Hiba történt a kutya hozzáadása közben:', error);
+        // Handle error
+      }
     },
   },
 };

@@ -5,7 +5,7 @@
       Betöltés...
     </div>
     <div v-else-if="errorMessage || fetchError || !hasDogs" class="alert alert-error">
-      {{ errorMessage || (fetchError ? 'Could not fetch dogs.' : 'No dogs found.') }}
+      {{ errorMessage || (fetchError ? 'Nem sikerült lekérdezni a kutyákat.' : 'Nem találhatók kutyák.') }}
     </div>
     <div v-else class="dog-item-container">
       <div v-for="dog in dogs" :key="dog.id" class="dog-item" @click="viewDog(dog.id)">
@@ -77,11 +77,11 @@ export default {
 }
 
 .dog-item {
-  @apply flex flex-col items-center bg-white m-4 p-4 rounded shadow w-1/4 min-w-64 min-h-64;
+  @apply flex flex-col items-center m-4 p-4 rounded w-1/4 min-w-64 min-h-64;
 }
 
 .dog-image {
-  @apply w-full h-64 object-cover mb-4 rounded min-w-64 min-h-64;
+  @apply w-full h-64 object-cover bg-white mb-4 rounded min-w-64 min-h-64;
 }
 
 .dog-name {
