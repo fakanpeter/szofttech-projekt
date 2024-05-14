@@ -34,8 +34,6 @@ public class DogService {
 
     public void addNewDog(DetailedDogDTO dto) throws IOException {
         DogEntity newDog = new DogEntity();
-        //newDog.setId(dogRepository.findAllDogs().size());
-        //System.out.println(newDog.getId());
 
         newDog.setName(dto.getName());
         //newDog.setPicture(pic.getBytes());
@@ -53,9 +51,8 @@ public class DogService {
             if (editRequest.getName() != null) {
                 dogEntity.setName(editRequest.getName());
             }
-            if (mpf.getBytes() != null) {
-                    dogEntity.setPicture(mpf.getBytes());
-            }
+            mpf.getBytes();
+            dogEntity.setPicture(mpf.getBytes());
             if (editRequest.getAge() != null) {
                 dogEntity.setAge(editRequest.getAge());
             }

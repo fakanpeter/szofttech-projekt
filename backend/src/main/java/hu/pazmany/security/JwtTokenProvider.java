@@ -19,11 +19,10 @@ public class JwtTokenProvider {
     }
 
     public String generateToken(Integer userId) {
-        String token = Jwts.builder()
+        return Jwts.builder()
                 .setSubject(String.valueOf(userId))
                 .signWith(secretKey)
                 .compact();
-        return token;
     }
 
     public boolean validateToken(String token) {
