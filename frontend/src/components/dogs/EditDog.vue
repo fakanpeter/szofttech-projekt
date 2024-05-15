@@ -11,7 +11,33 @@
       </div>
       <div class="input-group">
         <label for="breed">Faja</label>
-        <input id="breed" v-model="dog.breed" type="text" required>
+        <datalist id="breed-datalist">
+          <option>Angol bulldog</option>
+          <option>Beagle</option>
+          <option>Bernáthegyi</option>
+          <option>Bichon frisé</option>
+          <option>Border collie</option>
+          <option>Boxer</option>
+          <option>Bulldog</option>
+          <option>Chow-chow</option>
+          <option>Cocker spániel</option>
+          <option>Dalmata</option>
+          <option>Golden retriever</option>
+          <option>Kuvasz</option>
+          <option>Keverék</option>
+          <option>Labrador retriever</option>
+          <option>Mopsz</option>
+          <option>Németjuhász</option>
+          <option>Pomerániai törpe spicc</option>
+          <option>Puli</option>
+          <option>Pumi</option>
+          <option>Rottweiler</option>
+          <option>Shih Tzu</option>
+          <option>Száli</option>
+          <option>Tacskó</option>
+          <option>Vizsla</option>
+        </datalist>
+        <input id="breed" v-model="dog.breed" type="text" list="breed-datalist" required>
       </div>
       <div class="input-group">
         <label for="age">Kora</label>
