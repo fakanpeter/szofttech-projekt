@@ -30,7 +30,8 @@ export default {
       this.dog = response.data;
     } catch (error) {
       console.error(error);
-      // Handle error
+      alert('Szerveroldali hiba!\nHa a hiba többszöri próbálkozásra is fennáll, keresse fel az üzemeltetőt!');
+      location.reload(true);
     }
   },
   computed: {
@@ -51,11 +52,13 @@ export default {
           if (error.response && error.response.status === 401) {
             this.$router.push('/login');
           } else if (error.response && error.response.status === 404) {
-            // Handle "Not Found" error
             console.error('Dog not found:', error);
+            alert('A kért kutya többé már nem elérhető.');
+            location.reload();
           } else {
-            // Handle other types of errors
             console.error('Error deleting dog:', error);
+            alert('Szerveroldali hiba!\nHa a hiba többszöri próbálkozásra is fennáll, keresse fel az üzemeltetőt!');
+            location.reload(true);
           }
         }
       }

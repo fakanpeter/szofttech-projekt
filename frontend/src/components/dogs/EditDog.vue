@@ -128,7 +128,8 @@ export default {
         this.$router.push(`/dog/${this.$route.params.id}`);
       } catch (error) {
         console.error('Hiba történt a kutya szerkesztése közben:', error);
-        // Handle error
+        alert('Szerveroldali hiba!\nHa a hiba többszöri próbálkozásra is fennáll, keresse fel az üzemeltetőt!');
+        location.reload(true);
       }
     },
   },

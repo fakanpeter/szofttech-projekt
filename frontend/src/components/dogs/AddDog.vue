@@ -123,7 +123,8 @@ export default {
         this.$router.push(`/dogs`);
       } catch (error) {
         console.error('Hiba történt a kutya hozzáadása közben:', error);
-        // Handle error
+        alert('Szerveroldali hiba!\nHa a hiba többszöri próbálkozásra is fennáll, keresse fel az üzemeltetőt!');
+        location.reload(true);
       }
     },
   },

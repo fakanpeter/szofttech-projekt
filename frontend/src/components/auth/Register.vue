@@ -81,7 +81,7 @@ export default {
         }
       } catch (error) {
         // Handle error
-        console.log(error);
+        console.error(error);
 
         // Display error message
         if (error.response && error.response.data) {
