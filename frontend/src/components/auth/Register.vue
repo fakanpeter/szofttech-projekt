@@ -77,7 +77,7 @@ export default {
         // If registration is successful, redirect to login page
         if (response.status === 201) {
           store.commit('setRegistrationSuccess', true);
-          router.push('/login');
+          await router.push('/login');
         }
       } catch (error) {
         // Handle error
