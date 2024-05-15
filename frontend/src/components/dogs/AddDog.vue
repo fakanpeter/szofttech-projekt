@@ -68,6 +68,9 @@ export default {
       }
     },
     validateForm() {
+      this.dog.name = this.dog.name.trim();
+      this.dog.breed = this.dog.breed.trim();
+
       const name = this.dog.name;
       const breed = this.dog.breed;
       const age = this.dog.age;
