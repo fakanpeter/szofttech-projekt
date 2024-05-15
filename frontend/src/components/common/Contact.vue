@@ -5,8 +5,8 @@
       <p>Ha kérdése vagy észrevétele van, ne habozzon felvenni velünk a kapcsolatot.</p>
       <div class="contact-info">
         <p>Cím: 1234 Kutya utca, Kutyaváros</p>
-        <p>Telefon: +36 1 234 5678</p>
-        <p>Email: info@vauvau.hu</p>
+        <p>Telefon: <a href="tel:+3612345678">+36 1 234 5678</a></p>
+        <p>Email: <a href="mailto:info@vauvau.hu">info@vauvau.hu</a></p>
       </div>
     </div>
   </div>
