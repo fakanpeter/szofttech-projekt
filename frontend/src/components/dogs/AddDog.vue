@@ -74,7 +74,7 @@ export default {
       const name = this.dog.name;
       const breed = this.dog.breed;
       const age = this.dog.age;
-      const regex = /^[a-zA-ZáéíóöőúüűÁÉÍÓÖŐÚÜŰ]*$/;
+      const regex = /^[a-zA-ZáéíóöőúüűÁÉÍÓÖŐÚÜŰ ]*$/;
 
       if (!name.match(regex)) {
         this.errorMessage = "Helytelen név. Csak betűket tartalmazhat.";
