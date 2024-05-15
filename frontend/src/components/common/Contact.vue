@@ -1,11 +1,13 @@
 <template>
-  <div class="cta">
-    <h2>Kapcsolat</h2>
-    <p>Ha kérdése vagy észrevétele van, ne habozzon felvenni velünk a kapcsolatot.</p>
-    <div class="contact-info">
-      <p>Cím: 1234 Kutya utca, Kutyaváros</p>
-      <p>Telefon: +36 1 234 5678</p>
-      <p>Email: info@vauvau.hu</p>
+  <div class="cta-container">
+    <div class="cta">
+      <h2>Kapcsolat</h2>
+      <p>Ha kérdése vagy észrevétele van, ne habozzon felvenni velünk a kapcsolatot.</p>
+      <div class="contact-info">
+        <p>Cím: 1234 Kutya utca, Kutyaváros</p>
+        <p>Telefon: +36 1 234 5678</p>
+        <p>Email: info@vauvau.hu</p>
+      </div>
     </div>
   </div>
 </template>
@@ -17,8 +19,13 @@ export default {
 </script>
 
 <style scoped lang="postcss">
+.cta-container {
+  @apply flex justify-center;
+}
+
 .cta {
   @apply text-center py-8 px-6 mb-8 bg-blue-500 rounded-xl shadow-lg;
+  @apply max-w-screen-md;
 }
 
 .cta h2 {

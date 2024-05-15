@@ -1,6 +1,6 @@
 <template>
   <section class="hero">
-    <img class="hero-image"
+    <img class="hero-image rounded"
          :src="heroImage"
          alt="Hero Image">
     <h1>Üdv a Vau-Vau Alapítvány weboldalán!</h1>
@@ -22,7 +22,7 @@ export default {
 
 <style scoped lang="postcss">
 .hero {
-  @apply bg-cover bg-center py-20 text-center flex flex-col items-center justify-center;
+  @apply bg-cover bg-center py-1 text-center flex flex-col items-center justify-center;
 }
 
 .hero-image {

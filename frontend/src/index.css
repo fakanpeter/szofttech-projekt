@@ -3,7 +3,7 @@
 @import 'tailwindcss/utilities';
 
 body {
-    @apply flex flex-col justify-between text-center bg-blue-200 text-gray-800;
+    @apply flex flex-col justify-between text-center bg-blue-200 text-gray-800 min-h-screen;
 }
 
 .hero {
@@ -27,7 +27,7 @@ nav h1 {
 }
 
 nav ul {
-    @apply flex space-x-4 justify-center items-center;
+    @apply flex flex-col space-y-4 justify-center items-center sm:flex-row sm:space-y-0 sm:space-x-4;
 }
 
 nav ul li {
@@ -109,7 +109,7 @@ button {
 }
 
 @media (min-width: 600px) {
-        body {
+    body {
         @apply text-base;
     }
 
@@ -123,17 +123,17 @@ button {
         @apply text-base;
     }
 
-        button {
+    button {
         @apply text-base px-3 py-2 mt-6 mb-6;
     }
 
-        .title {
+    .title {
         @apply text-xl font-bold mb-6;
     }
 }
 
 @media (min-width: 768px) {
-        body {
+    body {
         @apply text-lg;
     }
 
@@ -147,17 +147,17 @@ button {
         @apply text-lg;
     }
 
-        button {
+    button {
         @apply text-lg px-4 py-2 mt-8 mb-8;
     }
 
-        .title {
+    .title {
         @apply text-2xl font-bold mb-8;
     }
 }
 
 @media (min-width: 992px) {
-        body {
+    body {
         @apply text-xl;
     }
 
@@ -171,17 +171,17 @@ button {
         @apply text-xl;
     }
 
-        button {
+    button {
         @apply text-xl px-5 py-3 mt-10 mb-10;
     }
 
-        .title {
+    .title {
         @apply text-3xl font-bold mb-10;
     }
 }
 
 @media (min-width: 1200px) {
-        body {
+    body {
         @apply text-2xl;
     }
 
@@ -195,11 +195,11 @@ button {
         @apply text-2xl;
     }
 
-        button {
+    button {
         @apply text-2xl px-6 py-4 mt-12 mb-12;
     }
 
-        .title {
+    .title {
         @apply text-4xl font-bold mb-12;
     }
 }

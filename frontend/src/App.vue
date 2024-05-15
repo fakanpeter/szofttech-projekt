@@ -1,7 +1,9 @@
 <template>
-  <div id="app">
+  <div id="app" class="flex flex-col min-h-screen">
     <Header />
-    <router-view class="main-content" />
+    <div class="flex-grow">
+      <router-view />
+    </div>
     <Footer />
   </div>
 </template>
@@ -27,10 +29,7 @@ export default {
 
 <style scoped lang="postcss">
 #app {
-  @apply min-h-screen flex flex-col;
+  @apply flex flex-col;
 }
 
-.main-content {
-  @apply flex-grow;
-}
 </style>
