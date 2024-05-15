@@ -156,7 +156,7 @@ public class Controller {
 	public ResponseEntity<?> validateDogData(@Valid @RequestBody DetailedDogDTO request) {
 		if (request.getName().length() < 2 || request.getName().length() > 20)
 			return ResponseEntity.badRequest().body("A kutyanév 2 és 20 karakter között legyen");
-		if (!Pattern.matches("^[A-Z][a-z]*$",request.getName()))
+		if (!Pattern.matches("^[a-zA-ZáéíóöőúüűÁÉÍÓÖŐÚÜŰ ]*$",request.getName()))
 			return ResponseEntity.badRequest().body("A kutyanév kis- és nagybetűkből álljon");
 		if (request.getAge() < 0)
 			return ResponseEntity.badRequest().body("A kutya életkora nem lehet negatív");
@@ -168,7 +168,7 @@ public class Controller {
 		if (userService.isUserExists(request.getUsername()))
 			return ResponseEntity.badRequest().body("Felhasználónév már létezik");
 
-		if(!Pattern.matches("^[a-zA-Z0-9]+$", request.getUsername()))
+		if(!Pattern.matches("^\\w{5,20}$", request.getUsername()))
 			return ResponseEntity.badRequest().body("A felhasználónév csak betűket és számokat tartalmazhat");
 
 		if(request.getUsername().length() < 5 || request.getUsername().length() > 20)
@@ -177,7 +177,7 @@ public class Controller {
 		if(request.getPassword().length() < 8 || request.getPassword().length() > 20)
 			return ResponseEntity.badRequest().body("A jelszó hossza 5 és 20 karakter között legyen");
 
-		if(!Pattern.matches("^(?=.*[A-Z])(?=.*\\d)[A-Za-z\\d]+$", request.getPassword()))
+		if(!Pattern.matches("^(?=.*[A-Z])(?=.*\\d)[A-Za-z\\d]{8,20}$", request.getPassword()))
 			return ResponseEntity.badRequest().body("A jelszó tartalmazzon nagybetűt és számot");
 		return null;
 	}
