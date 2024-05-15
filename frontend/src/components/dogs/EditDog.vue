@@ -79,15 +79,15 @@ export default {
       const name = this.dog.name;
       const breed = this.dog.breed;
       const age = this.dog.age;
-      const regex = /^[a-zA-ZáéíóöőúüűÁÉÍÓÖŐÚÜŰ ]*$/;
+      const regex = /^[a-zA-ZáéíóöőúüűÁÉÍÓÖŐÚÜŰ ]{2,20}$/;
 
       if (!name.match(regex)) {
-        this.errorMessage = "Helytelen név. Csak betűket tartalmazhat.";
+        this.errorMessage = "Helytelen név. Csak betűket tartalmazhat (2-20 karakter).";
         return false;
       }
 
       if (!breed.match(regex)) {
-        this.errorMessage = "Helytelen fajta. Csak betűket tartalmazhat.";
+        this.errorMessage = "Helytelen fajta. Csak betűket tartalmazhat (2-20 karakter).";
         return false;
       }
 

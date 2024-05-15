@@ -156,8 +156,12 @@ public class Controller {
 	public ResponseEntity<?> validateDogData(@Valid @RequestBody DetailedDogDTO request) {
 		if (request.getName().length() < 2 || request.getName().length() > 20)
 			return ResponseEntity.badRequest().body("A kutyanév 2 és 20 karakter között legyen");
-		if (!Pattern.matches("^[a-zA-ZáéíóöőúüűÁÉÍÓÖŐÚÜŰ ]*$",request.getName()))
+		if (!Pattern.matches("^[a-zA-ZáéíóöőúüűÁÉÍÓÖŐÚÜŰ ]{2,20}$",request.getName()))
 			return ResponseEntity.badRequest().body("A kutyanév kis- és nagybetűkből álljon");
+		if (request.getBreed().length() < 2 || request.getBreed().length() > 20)
+			return ResponseEntity.badRequest().body("A fajta neve 2 és 20 karakter között legyen");
+		if (!Pattern.matches("^[a-zA-ZáéíóöőúüűÁÉÍÓÖŐÚÜŰ ]{2,20}$",request.getBreed()))
+			return ResponseEntity.badRequest().body("A fajta neve kis- és nagybetűkből álljon");
 		if (request.getAge() < 0)
 			return ResponseEntity.badRequest().body("A kutya életkora nem lehet negatív");
 		return null;
